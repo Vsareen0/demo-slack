@@ -19,7 +19,7 @@ receiver.router.get('/', (req, res) => {
 // Other web requests are methods on receiver.router
 receiver.router.post('/challenge', (req, res) => {
   // You're working with an express req and res now.
-  res.send(req.query.challenge);
+  res.send(req.body.challenge);
 });
 
 
