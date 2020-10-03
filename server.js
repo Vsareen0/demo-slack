@@ -224,8 +224,7 @@ async function postAsUser(id, text) {
     // Call the chat.postMessage method using the built-in WebClient
     const result = await slackApp.client.chat.postMessage({
       // The user token of the user you want to impersonate
-      token:
-        "xoxp-1390311268292-1384327387395-1426261864944-ea768d62adf6cd10514f8827cc04457c",
+      token,
       channel: id,
       text: text,
       // You could also use a blocks[] array to send richer content
@@ -244,8 +243,7 @@ async function messageEvent() {
     // Call the chat.postMessage method using the built-in WebClient
     const result = await slackApp.client.message.channels({
       // The user token of the user you want to impersonate
-      token:
-        "xoxp-1390311268292-1384327387395-1426261864944-ea768d62adf6cd10514f8827cc04457c",
+      token,
     });
 
     // Print result
