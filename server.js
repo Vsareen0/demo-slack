@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const bodyParser = require('body-parser')
 const { App, ExpressReceiver } = require("@slack/bolt");
 
 // Create a Bolt Receiver
@@ -9,6 +9,7 @@ const slackApp = new App({
   receiver,
   token: process.env.SLACK_BOT_TOKEN,
 });
+var jsonParser = bodyParser.json();
 
 // Other web requests are methods on receiver.router
 receiver.router.get('/', (req, res) => {
@@ -17,9 +18,10 @@ receiver.router.get('/', (req, res) => {
 });
 
 // Other web requests are methods on receiver.router
-receiver.router.post('/challenge', (req, res) => {
+receiver.router.post('/challenge', jsonParser, (req, res) => {
   // You're working with an express req and res now.
-  res.send(req.body.challenge);
+  const value = req.body.challenge;
+  res.send(value);
 });
 
 
