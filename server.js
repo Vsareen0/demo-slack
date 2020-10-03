@@ -1,13 +1,84 @@
 const { default: Axios } = require("axios");
-require('dotenv').config();
+require("dotenv").config();
 
-const { App } = require('@slack/bolt');
+const { App } = require("@slack/bolt");
 const slackApp = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   token: process.env.SLACK_BOT_TOKEN,
 });
 
 const token = process.env.token;
+
+// Home Page
+async function appHome(id) {
+  try {
+    // Call the chat.postMessage method using the built-in WebClient
+    const result = await slackApp.client.views.publish({
+      // You could also use a blocks[] array to send richer content
+      user_id: id,
+      view: {
+        type: "home",
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text:
+                "A simple stack of blocks for the simple sample Block Kit Home tab.",
+            },
+          },
+          {
+            type: "actions",
+            elements: [
+              {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "Action A",
+                  emoji: true,
+                },
+              },
+              {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "Action B",
+                  emoji: true,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    });
+
+    // Print result, which includes information about the message (like TS)
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Listen to a message containing the substring "hello"
+// app.message requires your app to subscribe to the message.channels event
+slackApp.message("hello", async ({ payload, context }) => {
+  try {
+    console.log('called');
+    // Call the chat.postMessage method using the built-in WebClient
+    const result = await app.client.chat.postMessage({
+      // The token you used to initialize your app is stored in the `context` object
+      token: context.botToken,
+      // Payload message should be posted in the channel where original message was heard
+      channel: payload.channel,
+      text: "world"
+    });
+
+    console.log(result);
+  }
+  catch (error) {
+    console.error(error);
+  }
+});
 
 // Post a message to a channel your app is in using ID and message text
 async function publishMessage(id, text) {
@@ -17,15 +88,13 @@ async function publishMessage(id, text) {
       // The token you used to initialize your app
       token,
       channel: id,
-      text: text,
-      as_user: true
+      text: text
       // You could also use a blocks[] array to send richer content
     });
 
     // Print result, which includes information about the message (like TS)
     console.log(result);
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
 }
@@ -37,18 +106,17 @@ async function publishConversation(cid, id, text) {
     const result = await slackApp.client.chat.postEphemeral({
       // The token you used to initialize your app
       token,
-      attachments:[{"pretext": "pre-hello", "text": "text-world"}],
+      attachments: [{ pretext: "pre-hello", text: "text-world" }],
       channel: cid,
       text,
       as_user: true,
-      user: id
+      user: id,
       // You could also use a blocks[] array to send richer content
     });
 
     // Print result, which includes information about the message (like TS)
     console.log(result);
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
 }
@@ -59,10 +127,10 @@ async function findConversation(name) {
     // Call the conversations.list method using the built-in WebClient
     const result = await slackApp.client.conversations.list({
       // The token you used to initialize your app
-      token
+      token,
     });
 
-    console.log('All list: ', result.channels)
+    console.log("All list: ", result.channels);
 
     for (const channel of result.channels) {
       if (channel.name === name) {
@@ -74,13 +142,10 @@ async function findConversation(name) {
         break;
       }
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
 }
-
-
 
 // Post a message as a user with channel ID and message text
 async function postAsUser(id, text) {
@@ -88,21 +153,19 @@ async function postAsUser(id, text) {
     // Call the chat.postMessage method using the built-in WebClient
     const result = await slackApp.client.chat.postMessage({
       // The user token of the user you want to impersonate
-      token: "xoxp-1390311268292-1384327387395-1426261864944-ea768d62adf6cd10514f8827cc04457c",
+      token:
+        "xoxp-1390311268292-1384327387395-1426261864944-ea768d62adf6cd10514f8827cc04457c",
       channel: id,
-      text: text
+      text: text,
       // You could also use a blocks[] array to send richer content
     });
 
     // Print result
     console.log(result);
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
 }
-
-
 
 // Receive any message based on channel events
 async function messageEvent() {
@@ -110,40 +173,37 @@ async function messageEvent() {
     // Call the chat.postMessage method using the built-in WebClient
     const result = await slackApp.client.message.channels({
       // The user token of the user you want to impersonate
-      token: "xoxp-1390311268292-1384327387395-1426261864944-ea768d62adf6cd10514f8827cc04457c",
-      
+      token:
+        "xoxp-1390311268292-1384327387395-1426261864944-ea768d62adf6cd10514f8827cc04457c",
     });
 
     // Print result
     console.log(result);
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
 }
-
-
-
 
 (async () => {
   // Start the app
   await slackApp.start(process.env.PORT || 3000);
 
-  console.log('⚡️ Bolt app is running!');
-  // Direct or channel message
-  publishMessage("U01BA9MBDBM", "Hello world :tada:");
+  console.log("⚡️ Bolt app is running!");
 
+  // Vinamra Id: U01BA9MBDBM
+  // Pompei id:  
+
+  // Direct or channel message
+  // publishMessage("@Pompei", "Check pompei :tada:");
 
   // Only visible to you message
   // publishConversation("#general","U01BA9MBDBM", "Shhhh ! Only you can see this !");
 
-
   // Get list of all channels and their info
   // findConversation("general");
-
 
   // Self message - Impersonate as someone
   // postAsUser("D01BNN18DB3", "Just a test !");
 
-
+  // appHome("D01BNN18DB3");
 })();
