@@ -16,6 +16,12 @@ receiver.router.get('/', (req, res) => {
   res.send('yay!');
 });
 
+// Other web requests are methods on receiver.router
+receiver.router.get('/challenge', (req, res) => {
+  // You're working with an express req and res now.
+  res.send(req.query.challenge);
+});
+
 
 const token = process.env.token;
 

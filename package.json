@@ -13,7 +13,7 @@
     "nodemon": "^2.0.4"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server"
   },
   "author": "",
   "license": "ISC"
