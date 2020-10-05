@@ -22,12 +22,13 @@ receiver.router.get("/", (req, res) => {
 // Other web requests are methods on receiver.router
 receiver.router.post("/challenge", jsonParser, (req, res) => {
   // You're working with an express req and res now.
-  console.log('challenge: ', req.body);
   if (req.body.type == "url_verification") {
     const value = req.body.challenge;
     res.send(value);
   } else {
     // Listen to the app_home_opened Events API event to hear when a user opens your app from the sidebar
+    console.log('events: ', req.body.event);
+  
     const event = req.body.event;
 
     switch(event.type){
@@ -55,8 +56,7 @@ async function handleMessageEvent(event){
         text: "world",
         thread_ts: event.ts
       });
-      
-      console.log(result);
+      return;
     }
   } catch (error) {
     console.error(error);
@@ -106,7 +106,7 @@ async function displayHome(event) {
       },
     });
 
-    console.log(result);
+    return;
   } catch (error) {
     console.error(error);
   }
