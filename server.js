@@ -22,7 +22,7 @@ receiver.router.get("/", (req, res) => {
 // Other web requests are methods on receiver.router
 receiver.router.post("/challenge", jsonParser, (req, res) => {
   // You're working with an express req and res now.
-
+  console.log('challenge: ', req.body);
   if (req.body.type == "url_verification") {
     const value = req.body.challenge;
     res.send(value);
