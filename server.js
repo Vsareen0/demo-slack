@@ -45,7 +45,11 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 });
 
 receiver.router.post("/slack/actions", jsonParser, (req, res) => {
-  console.log('actions: ', req.body)
+  slackApp.action('click_me', async({ ask, say}) => {
+    await ack();
+
+    console.log('do not touch me !');
+  })
 });
 
 async function handleMessageEvent(event){
