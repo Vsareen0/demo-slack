@@ -44,6 +44,10 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
   }
 });
 
+receiver.router.post("/slack/actions", jsonParser, (req, res) => {
+  console.log('actions: ', req.body)
+});
+
 async function handleMessageEvent(event){
   try {
     if(event.text == 'hello'){
