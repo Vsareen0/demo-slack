@@ -83,7 +83,7 @@ slackApp.event("app_home_opened", async ({ event, context, payload }) => {
 slackApp.action('click_me', async ({ body, context, ack }) => {
   ack();
   
-  console.log('clicked');
+  console.log('clicked the button');
 
 });
 
@@ -164,6 +164,7 @@ async function publishMessage(id, text) {
                 "emoji": true,
                 "text": "Approve"
               },
+              "action_id": "click_me",
               "style": "primary",
               "value": "click_me_123"
             },
