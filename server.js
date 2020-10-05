@@ -1,111 +1,111 @@
 require("dotenv").config();
-const bodyParser = require('body-parser')
+const bodyParser = require("body-parser");
 const { App, ExpressReceiver } = require("@slack/bolt");
+const e = require("express");
 
 // Create a Bolt Receiver
-const receiver = new ExpressReceiver({ signingSecret: process.env.SLACK_SIGNING_SECRET });
+const receiver = new ExpressReceiver({
+  signingSecret: process.env.SLACK_SIGNING_SECRET,
+});
 
 const slackApp = new App({
   receiver,
-  token: process.env.SLACK_BOT_TOKEN
+  token: process.env.SLACK_BOT_TOKEN,
 });
 var jsonParser = bodyParser.json();
 
 // Other web requests are methods on receiver.router
-receiver.router.get('/', (req, res) => {
+receiver.router.get("/", (req, res) => {
   // You're working with an express req and res now.
-  res.send('yay!');
+  res.send("yay!");
 });
 
 // Other web requests are methods on receiver.router
-receiver.router.post('/challenge', jsonParser, (req, res) => {
+receiver.router.post("/challenge", jsonParser, (req, res) => {
   // You're working with an express req and res now.
-  const value = req.body.challenge;
-  res.send(value);
-});
 
+  if (req.body.type == "url_verification") {
+    const value = req.body.challenge;
+    res.send(value);
+  } else {
+    // Listen to the app_home_opened Events API event to hear when a user opens your app from the sidebar
+    slackApp.event("app_home_opened", async ({ event, context, payload }) => {
+      const userId = event.user;
+
+      try {
+        // Call the views.publish method using the built-in WebClient
+        const result = await slackApp.client.views.publish({
+          // The token you used to initialize your app is stored in the `context` object
+          token: context.botToken,
+          user_id: userId,
+          view: {
+            type: "home",
+            blocks: [
+              {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text:
+                    "A simple stack of blocks for the simple sample Block Kit Home tab.",
+                },
+              },
+              {
+                type: "actions",
+                elements: [
+                  {
+                    type: "button",
+                    text: {
+                      type: "plain_text",
+                      text: "Action A",
+                      emoji: true,
+                    },
+                  },
+                  {
+                    type: "button",
+                    text: {
+                      type: "plain_text",
+                      text: "Action B",
+                      emoji: true,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        });
+
+        console.log(result);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  }
+});
 
 const token = process.env.token;
 
-// Listen to the app_home_opened Events API event to hear when a user opens your app from the sidebar
-slackApp.event("app_home_opened", async ({ event, context, payload }) => {
-  const userId = event.user;
-  
-  try {
-    // Call the views.publish method using the built-in WebClient
-    const result = await slackApp.client.views.publish({
-      // The token you used to initialize your app is stored in the `context` object
-      token: context.botToken,
-      user_id: userId,
-      "view": {
-        "type":"home",
-        "blocks":[
-           {
-              "type":"section",
-              "text":{
-                 "type":"mrkdwn",
-                 "text":"A simple stack of blocks for the simple sample Block Kit Home tab."
-              }
-           },
-           {
-              "type":"actions",
-              "elements":[
-                 {
-                    "type":"button",
-                    "text":{
-                       "type":"plain_text",
-                       "text":"Action A",
-                       "emoji":true
-                    }
-                 },
-                 {
-                    "type":"button",
-                    "text":{
-                       "type":"plain_text",
-                       "text":"Action B",
-                       "emoji":true
-                    }
-                 }
-              ]
-           }
-        ]
-     }
-    });
-
-    console.log(result);
-  }
-  catch (error) {
-    console.error(error);
-  }
-});
-
-
-slackApp.action('click_me', async ({ body, context, ack }) => {
+slackApp.action("click_me", async ({ body, context, ack }) => {
   ack();
-  
-  console.log('clicked the button');
 
+  console.log("clicked the button");
 });
-
-
 
 // Listen to a message containing the substring "hello"
 // app.message requires your app to subscribe to the message.channels event
 slackApp.message("hello", async ({ payload, context }) => {
   try {
-    console.log('called');
+    console.log("called");
     // Call the chat.postMessage method using the built-in WebClient
     const result = await slackApp.client.chat.postMessage({
       // The token you used to initialize your app is stored in the `context` object
       token: context.botToken,
       // Payload message should be posted in the channel where original message was heard
       channel: payload.channel,
-      text: "world"
+      text: "world",
     });
 
     console.log(result);
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
 });
@@ -116,71 +116,71 @@ async function publishMessage(id, text) {
     // Call the chat.postMessage method using the built-in WebClient
     const result = await slackApp.client.chat.postMessage({
       // The token you used to initialize your app
-      token,
+      token: process.env.SLACK_BOT_TOKEN,
       channel: id,
       text: text,
-      as_user: true,
       // You could also use a blocks[] array to send richer content
-      "blocks": [
+      blocks: [
         {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "You have a new request:\n*<fakeLink.toEmployeeProfile.com|Fred Enriquez - New device request>*"
-          }
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text:
+              "You have a new request:\n*<fakeLink.toEmployeeProfile.com|Fred Enriquez - New device request>*",
+          },
         },
         {
-          "type": "section",
-          "fields": [
+          type: "section",
+          fields: [
             {
-              "type": "mrkdwn",
-              "text": "*Type:*\nComputer (laptop)"
+              type: "mrkdwn",
+              text: "*Type:*\nComputer (laptop)",
             },
             {
-              "type": "mrkdwn",
-              "text": "*When:*\nSubmitted Aut 10"
+              type: "mrkdwn",
+              text: "*When:*\nSubmitted Aut 10",
             },
             {
-              "type": "mrkdwn",
-              "text": "*Last Update:*\nMar 10, 2015 (3 years, 5 months)"
+              type: "mrkdwn",
+              text: "*Last Update:*\nMar 10, 2015 (3 years, 5 months)",
             },
             {
-              "type": "mrkdwn",
-              "text": "*Reason:*\nAll vowel keys aren't working."
+              type: "mrkdwn",
+              text: "*Reason:*\nAll vowel keys aren't working.",
             },
             {
-              "type": "mrkdwn",
-              "text": "*Specs:*\n\"Cheetah Pro 15\" - Fast, really fast\""
-            }
-          ]
+              type: "mrkdwn",
+              text: '*Specs:*\n"Cheetah Pro 15" - Fast, really fast"',
+            },
+          ],
         },
         {
-          "type": "actions",
-          "elements": [
+          type: "actions",
+          elements: [
             {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "emoji": true,
-                "text": "Approve"
+              type: "button",
+              text: {
+                type: "plain_text",
+                emoji: true,
+                text: "Approve",
               },
-              "action_id": "click_me",
-              "style": "primary",
-              "value": "click_me_123"
+              action_id: "click_me",
+              style: "primary",
+              value: "click_me_123",
             },
             {
-              "type": "button",
-              "text": {
-                "type": "plain_text",
-                "emoji": true,
-                "text": "Deny"
+              type: "button",
+              text: {
+                type: "plain_text",
+                emoji: true,
+                text: "Deny",
               },
-              "style": "danger",
-              "value": "click_me_123"
-            }
-          ]
-        }
-      ]
+              style: "danger",
+              value: "click_me_123",
+            },
+          ],
+        },
+      ],
     });
 
     // Print result, which includes information about the message (like TS)
@@ -283,7 +283,7 @@ async function messageEvent() {
   // Pompei id:  U01BUCASW4S
 
   // Direct or channel message
-  // publishMessage("U01BUCASW4S", "Check pompei :tada:");
+  // publishMessage("U01BA9MBDBM", "Check pompei :tada:");
 
   // Only visible to you message
   // publishConversation("#general","U01BA9MBDBM", "Shhhh ! Only you can see this !");
@@ -293,5 +293,4 @@ async function messageEvent() {
 
   // Self message - Impersonate as someone
   // postAsUser(" ", "Just a test !");
-
 })();
