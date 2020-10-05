@@ -45,10 +45,11 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 });
 
 receiver.router.post("/slack/actions", jsonParser, (req, res) => {
-  slackApp.action('click_me', async({ ask, say}) => {
+  slackApp.action('click_me', async({ ack, say}) => {
     await ack();
 
     console.log('do not touch me !');
+    publishMessage('#general', `Vinamra touched me !`);
   })
 });
 
