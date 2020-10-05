@@ -1,7 +1,6 @@
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const { App, ExpressReceiver } = require("@slack/bolt");
-const e = require("express");
 
 // Create a Bolt Receiver
 const receiver = new ExpressReceiver({
@@ -247,5 +246,3 @@ const send = async(channel, text) => {
   // Self message - Impersonate as someone
   // postAsUser(" ", "Just a test !");
 })();
-
-module.exports = { app };
