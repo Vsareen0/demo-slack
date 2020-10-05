@@ -27,16 +27,16 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
     res.send(value);
   } else {
     // Listen to the app_home_opened Events API event to hear when a user opens your app from the sidebar
-    console.log('events: ', req.body.event);
-  
+    console.log("events: ", req.body.event);
+
     const event = req.body.event;
 
-    switch(event.type){
-      case 'app_home_opened': {
+    switch (event.type) {
+      case "app_home_opened": {
         displayHome(event);
         break;
       }
-      case 'message': {
+      case "message": {
         handleMessageEvent(event);
         break;
       }
@@ -45,17 +45,14 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 });
 
 receiver.router.post("/slack/actions", jsonParser, (req, res) => {
-  slackApp.action('click_me', async({ ack, say}) => {
-    await ack();
-
-    console.log('do not touch me !');
-    publishMessage('#general', `Vinamra touched me !`);
-  })
+  console.log("do not touch me !");
+  publishMessage("#general", `Vinamra touched me !`);
+  console.log('value: ', req.body);
 });
 
-async function handleMessageEvent(event){
+async function handleMessageEvent(event) {
   try {
-    if(event.text == 'hello'){
+    if (event.text == "hello") {
       // Call the chat.postMessage method using the built-in WebClient
       const result = await slackApp.client.chat.postMessage({
         // The token you used to initialize your app is stored in the `context` object
@@ -63,7 +60,7 @@ async function handleMessageEvent(event){
         // Payload message should be posted in the channel where original message was heard
         channel: event.channel,
         text: "world",
-        thread_ts: event.ts
+        thread_ts: event.ts,
       });
       return;
     }
@@ -100,7 +97,7 @@ async function displayHome(event) {
                   text: "Action A",
                   emoji: true,
                 },
-                action_id: "click_me"
+                action_id: "click_me",
               },
               {
                 type: "button",
@@ -109,7 +106,7 @@ async function displayHome(event) {
                   text: "Action B",
                   emoji: true,
                 },
-                url: "https://www.google.com"
+                url: "https://www.google.com",
               },
             ],
           },
@@ -124,7 +121,6 @@ async function displayHome(event) {
 }
 
 const token = process.env.token;
-
 
 // Post a message to a channel your app is in using ID and message text
 async function publishMessage(id, text) {
@@ -226,17 +222,16 @@ async function publishConversation(cid, id, text) {
   } catch (error) {
     console.error(error);
   }
-};
+}
 
-const send = async(channel, text) => {   
+const send = async (channel, text) => {
   try {
     const result = await app.client.chat.postMessage({
       token: process.env.SLACK_BOT_TOKEN,
       channel: channel,
-      text: `:wave: Hey, I created this note for you in my _Home_: \n>>>${text}`
+      text: `:wave: Hey, I created this note for you in my _Home_: \n>>>${text}`,
     });
-    
-  } catch(e) {
+  } catch (e) {
     console.log(e);
   }
 };
