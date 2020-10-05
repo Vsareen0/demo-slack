@@ -7,9 +7,7 @@ const receiver = new ExpressReceiver({ signingSecret: process.env.SLACK_SIGNING_
 
 const slackApp = new App({
   receiver,
-  token: process.env.SLACK_BOT_TOKEN,
-  // LogLevel can be imported and used to make debugging simpler
-  logLevel: LogLevel.DEBUG
+  token: process.env.SLACK_BOT_TOKEN
 });
 var jsonParser = bodyParser.json();
 
