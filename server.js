@@ -95,6 +95,7 @@ async function displayHome(event) {
                   text: "Action A",
                   emoji: true,
                 },
+                action_id: "click_me"
               },
               {
                 type: "button",
@@ -103,6 +104,7 @@ async function displayHome(event) {
                   text: "Action B",
                   emoji: true,
                 },
+                url: "https://www.google.com"
               },
             ],
           },
