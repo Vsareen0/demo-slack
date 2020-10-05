@@ -8,6 +8,8 @@ const receiver = new ExpressReceiver({ signingSecret: process.env.SLACK_SIGNING_
 const slackApp = new App({
   receiver,
   token: process.env.SLACK_BOT_TOKEN,
+  // LogLevel can be imported and used to make debugging simpler
+  logLevel: LogLevel.DEBUG
 });
 var jsonParser = bodyParser.json();
 
@@ -28,9 +30,9 @@ receiver.router.post('/challenge', jsonParser, (req, res) => {
 const token = process.env.token;
 
 // Listen to the app_home_opened Events API event to hear when a user opens your app from the sidebar
-slackApp.event("app_home_opened", async ({ payload, context }) => {
-  const userId = payload.user;
-  console.log(userId);
+slackApp.event("app_home_opened", async ({ event, context, payload }) => {
+  const userId = event.user;
+  
   try {
     // Call the views.publish method using the built-in WebClient
     const result = await slackApp.client.views.publish({
