@@ -79,6 +79,16 @@ slackApp.event("app_home_opened", async ({ event, context, payload }) => {
   }
 });
 
+
+slackApp.action('click_me', async ({ body, context, ack }) => {
+  ack();
+  
+  console.log('clicked');
+
+});
+
+
+
 // Listen to a message containing the substring "hello"
 // app.message requires your app to subscribe to the message.channels event
 slackApp.message("hello", async ({ payload, context }) => {
