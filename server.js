@@ -33,7 +33,7 @@ slackApp.event("app_home_opened", async ({ payload, context }) => {
   
   try {
     // Call the views.publish method using the built-in WebClient
-    const result = await app.client.views.publish({
+    const result = await slackApp.client.views.publish({
       // The token you used to initialize your app is stored in the `context` object
       token: context.botToken,
       user_id: userId,
@@ -84,7 +84,7 @@ slackApp.message("hello", async ({ payload, context }) => {
   try {
     console.log('called');
     // Call the chat.postMessage method using the built-in WebClient
-    const result = await app.client.chat.postMessage({
+    const result = await slackApp.client.chat.postMessage({
       // The token you used to initialize your app is stored in the `context` object
       token: context.botToken,
       // Payload message should be posted in the channel where original message was heard
