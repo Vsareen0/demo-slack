@@ -30,45 +30,46 @@ const token = process.env.token;
 // Listen to the app_home_opened Events API event to hear when a user opens your app from the sidebar
 slackApp.event("app_home_opened", async ({ payload, context }) => {
   const userId = payload.user;
-  
+  console.log(userId);
   try {
     // Call the views.publish method using the built-in WebClient
     const result = await slackApp.client.views.publish({
       // The token you used to initialize your app is stored in the `context` object
       token: context.botToken,
       user_id: userId,
-      view: {
-        // Home tabs must be enabled in your app configuration page under "App Home"
-        "type": "home",
-        "blocks": [
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": "*Welcome home, <@" + userId + "> :house:*"
-            }
-          },
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": "Learn how home tabs can be more useful and interactive <https://api.slack.com/surfaces/tabs/using|*in the documentation*>."
-            }
-          },
-          {
-            "type": "divider"
-          },
-          {
-            "type": "context",
-            "elements": [
-              {
-                "type": "mrkdwn",
-                "text": "Psssst this home tab was designed using <https://api.slack.com/tools/block-kit-builder|*Block Kit Builder*>"
+      "view": {
+        "type":"home",
+        "blocks":[
+           {
+              "type":"section",
+              "text":{
+                 "type":"mrkdwn",
+                 "text":"A simple stack of blocks for the simple sample Block Kit Home tab."
               }
-            ]
-          }
+           },
+           {
+              "type":"actions",
+              "elements":[
+                 {
+                    "type":"button",
+                    "text":{
+                       "type":"plain_text",
+                       "text":"Action A",
+                       "emoji":true
+                    }
+                 },
+                 {
+                    "type":"button",
+                    "text":{
+                       "type":"plain_text",
+                       "text":"Action B",
+                       "emoji":true
+                    }
+                 }
+              ]
+           }
         ]
-      }
+     }
     });
 
     console.log(result);
