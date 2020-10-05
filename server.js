@@ -80,6 +80,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
       }
     });
   }
+  
 });
 
 const token = process.env.token;
@@ -210,68 +211,20 @@ async function publishConversation(cid, id, text) {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
-// Find conversation ID using the conversations.list method
-async function findConversation(name) {
+const send = async(channel, text) => {   
   try {
-    // Call the conversations.list method using the built-in WebClient
-    const result = await slackApp.client.conversations.list({
-      // The token you used to initialize your app
-      token,
+    const result = await app.client.chat.postMessage({
+      token: process.env.SLACK_BOT_TOKEN,
+      channel: channel,
+      text: `:wave: Hey, I created this note for you in my _Home_: \n>>>${text}`
     });
-
-    console.log("All list: ", result.channels);
-
-    for (const channel of result.channels) {
-      if (channel.name === name) {
-        conversationId = channel.id;
-
-        // Print result
-        console.log("Found conversation ID: " + conversationId);
-        // Break from for loop
-        break;
-      }
-    }
-  } catch (error) {
-    console.error(error);
+    
+  } catch(e) {
+    console.log(e);
   }
-}
-
-// Post a message as a user with channel ID and message text
-async function postAsUser(id, text) {
-  try {
-    // Call the chat.postMessage method using the built-in WebClient
-    const result = await slackApp.client.chat.postMessage({
-      // The user token of the user you want to impersonate
-      token,
-      channel: id,
-      text: text,
-      // You could also use a blocks[] array to send richer content
-    });
-
-    // Print result
-    console.log(result);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Receive any message based on channel events
-async function messageEvent() {
-  try {
-    // Call the chat.postMessage method using the built-in WebClient
-    const result = await slackApp.client.message.channels({
-      // The user token of the user you want to impersonate
-      token,
-    });
-
-    // Print result
-    console.log(result);
-  } catch (error) {
-    console.error(error);
-  }
-}
+};
 
 (async () => {
   // Start the app
@@ -294,3 +247,5 @@ async function messageEvent() {
   // Self message - Impersonate as someone
   // postAsUser(" ", "Just a test !");
 })();
+
+module.exports = { app };
