@@ -39,7 +39,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
   
 });
 
-function displayHome(event) {
+async function displayHome(event) {
   try {
     // Call the views.publish method using the built-in WebClient
     const result = await slackApp.client.views.publish({
