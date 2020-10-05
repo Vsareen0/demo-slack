@@ -28,59 +28,65 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
     res.send(value);
   } else {
     // Listen to the app_home_opened Events API event to hear when a user opens your app from the sidebar
-    slackApp.event("app_home_opened", async ({ event, context, payload }) => {
-      const userId = event.user;
+    const event = req.body.event;
 
-      try {
-        // Call the views.publish method using the built-in WebClient
-        const result = await slackApp.client.views.publish({
-          // The token you used to initialize your app is stored in the `context` object
-          token: context.botToken,
-          user_id: userId,
-          view: {
-            type: "home",
-            blocks: [
-              {
-                type: "section",
-                text: {
-                  type: "mrkdwn",
-                  text:
-                    "A simple stack of blocks for the simple sample Block Kit Home tab.",
-                },
-              },
-              {
-                type: "actions",
-                elements: [
-                  {
-                    type: "button",
-                    text: {
-                      type: "plain_text",
-                      text: "Action A",
-                      emoji: true,
-                    },
-                  },
-                  {
-                    type: "button",
-                    text: {
-                      type: "plain_text",
-                      text: "Action B",
-                      emoji: true,
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        });
-
-        console.log(result);
-      } catch (error) {
-        console.error(error);
+    switch(event.type){
+      case 'app_home_opened': {
+        displayHome(event);
       }
-    });
+    }
   }
   
 });
+
+function displayHome(event) {
+  try {
+    // Call the views.publish method using the built-in WebClient
+    const result = await slackApp.client.views.publish({
+      // The token you used to initialize your app is stored in the `context` object
+      token: process.env.SLACK_BOT_TOKEN,
+      user_id: event.user,
+      view: {
+        type: "home",
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text:
+                "A simple stack of blocks for the simple sample Block Kit Home tab.",
+            },
+          },
+          {
+            type: "actions",
+            elements: [
+              {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "Action A",
+                  emoji: true,
+                },
+              },
+              {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "Action B",
+                  emoji: true,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    });
+
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 const token = process.env.token;
 
