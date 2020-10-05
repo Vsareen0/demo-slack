@@ -1,4 +1,4 @@
-import { JsonDB } from 'node-json-db';
+const JsonDB = require('node-json-db').JsonDB;
 const db = new JsonDB('notes', true, false);
 
 const app = require('./server');

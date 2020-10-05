@@ -10,6 +10,8 @@ const { App } = require('@slack/bolt');
 const appHome = require('./appHome');
 const message = require('./message');
 
+require('dotenv').config();
+
 // Initializes your Bolt app with your bot token and signing secret
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -81,11 +83,25 @@ app.view('modal_view', async ({ ack, body, context, view }) => {
     
 });
 
+const send = async(channel, text) => {   
+  try {
+    const result = await app.client.chat.postMessage({
+      token: process.env.SLACK_BOT_TOKEN,
+      channel: channel,
+      text: `:wave: Hey, I created this note for you in my _Home_: \n>>>${text}`
+    });
+    
+  } catch(e) {
+    console.log(e);
+  }
+};
+
 (async () => {
   // Start your app
   await app.start(process.env.PORT || 3000);
 
   console.log('⚡️ Bolt app is running!');
+  send('U01BA9MBDBM', 'Somethign !');
 })();
 
 module.exports = { app };
