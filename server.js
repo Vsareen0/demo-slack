@@ -33,11 +33,35 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
     switch(event.type){
       case 'app_home_opened': {
         displayHome(event);
+        break;
+      }
+      case 'message': {
+        handleMessageEvent(event);
+        break;
       }
     }
   }
-  
 });
+
+async function handleMessageEvent(event){
+  try {
+    if(event.text == 'hello'){
+      // Call the chat.postMessage method using the built-in WebClient
+      const result = await slackApp.client.chat.postMessage({
+        // The token you used to initialize your app is stored in the `context` object
+        token: process.env.SLACK_BOT_TOKEN,
+        // Payload message should be posted in the channel where original message was heard
+        channel: event.channel,
+        text: "world",
+        thread_ts: event.ts
+      });
+      
+      console.log(result);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 async function displayHome(event) {
   try {
@@ -90,31 +114,6 @@ async function displayHome(event) {
 
 const token = process.env.token;
 
-slackApp.action("click_me", async ({ body, context, ack }) => {
-  ack();
-
-  console.log("clicked the button");
-});
-
-// Listen to a message containing the substring "hello"
-// app.message requires your app to subscribe to the message.channels event
-slackApp.message("hello", async ({ payload, context }) => {
-  try {
-    console.log("called");
-    // Call the chat.postMessage method using the built-in WebClient
-    const result = await slackApp.client.chat.postMessage({
-      // The token you used to initialize your app is stored in the `context` object
-      token: context.botToken,
-      // Payload message should be posted in the channel where original message was heard
-      channel: payload.channel,
-      text: "world",
-    });
-
-    console.log(result);
-  } catch (error) {
-    console.error(error);
-  }
-});
 
 // Post a message to a channel your app is in using ID and message text
 async function publishMessage(id, text) {
