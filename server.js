@@ -370,20 +370,19 @@ const send = async (channel, text) => {
   // Vinamra Id: U01BA9MBDBM
   // Pompei id:  U01BUCASW4S
 
-  const {} = await axios
-    .post(`https://slack.com/api/auth.test?token=${process.env.token}`, {
+  const userInfo = await axios.post(
+    `https://slack.com/api/auth.test?token=${process.env.token}`,
+    {
       headers: {
         Accept: "application/json",
       },
-    })
-    .then((res) => {
-      // Direct or channel message
-      console.log(res);
-      // publishMessage(
-      //   `${res.}`,
-      //   "Hi :wave:, thankyou for choosing us ! :blush:. Let's get started working on boosting your performance. :fire:"
-      // );
-    });
+    }
+  );
+  console.log(userInfo.data);
+  // publishMessage(
+  //   `${res.}`,
+  //   "Hi :wave:, thankyou for choosing us ! :blush:. Let's get started working on boosting your performance. :fire:"
+  // );
 
   // Only visible to you message
   // publishConversation("#general","U01BA9MBDBM", "Shhhh ! Only you can see this !");
