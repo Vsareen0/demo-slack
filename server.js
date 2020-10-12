@@ -205,35 +205,55 @@ async function displayHome(event) {
         type: "home",
         blocks: [
           {
+            type: "image",
+            image_url:
+              "https://yogya.ai/wp-content/uploads/2020/01/yogya-black-transparent.png",
+            alt_text: "marg",
+          },
+          {
+            type: "divider",
+          },
+          {
             type: "section",
             text: {
               type: "mrkdwn",
               text:
-                "A simple stack of blocks for the simple sample Block Kit Home tab.",
+                "Welcome to *Yogya.ai*, We are so excited to begin this journey with you !",
             },
           },
           {
-            type: "actions",
-            elements: [
-              {
-                type: "button",
-                text: {
-                  type: "plain_text",
-                  text: "Action A",
-                  emoji: true,
-                },
-                action_id: "click_me",
-              },
-              {
-                type: "button",
-                text: {
-                  type: "plain_text",
-                  text: "Action B",
-                  emoji: true,
-                },
-                url: "https://www.google.com",
-              },
-            ],
+            type: "divider",
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text:
+                "*Instructions:* \n\n Below are some guidelines to follow to get started with us. :fire: \n\n\n\n *Commands:*",
+            },
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "To ask us any question, you can use */ask*",
+            },
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text:
+                "\n\n\n\n*Mentions:* \n\n Whenever you mention us somewhere, we will listen you and respond you with appropriate responses at earliest. To mention us use *_@Pompei_* ",
+            },
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text:
+                "\n\n\n\n*Keep supporting us, and we promise to deliever th best of our capatabilities*",
+            },
           },
         ],
       },
