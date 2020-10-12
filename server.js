@@ -41,7 +41,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
         break;
       }
       case "app_mention": {
-        console.log("hello: ", event);
+        console.log("hello: ", event.text.includes("create learning path"));
         break;
       }
     }
