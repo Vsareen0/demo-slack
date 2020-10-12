@@ -1,6 +1,7 @@
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const { App, ExpressReceiver } = require("@slack/bolt");
+const axios = require("axios");
 
 // Create a Bolt Receiver
 const receiver = new ExpressReceiver({
@@ -369,21 +370,20 @@ const send = async (channel, text) => {
   // Vinamra Id: U01BA9MBDBM
   // Pompei id:  U01BUCASW4S
 
-  const {} = await fetch(
-    `https://slack.com/api/auth.test?token=${process.env.token}`,
-    {
+  const {} = await axios
+    .post(`https://slack.com/api/auth.test?token=${process.env.token}`, {
       headers: {
         Accept: "application/json",
       },
-    }
-  ).then((res) => {
-    // Direct or channel message
-    console.log(res.json());
-    // publishMessage(
-    //   `${res.}`,
-    //   "Hi :wave:, thankyou for choosing us ! :blush:. Let's get started working on boosting your performance. :fire:"
-    // );
-  });
+    })
+    .then((res) => {
+      // Direct or channel message
+      console.log(res.json());
+      // publishMessage(
+      //   `${res.}`,
+      //   "Hi :wave:, thankyou for choosing us ! :blush:. Let's get started working on boosting your performance. :fire:"
+      // );
+    });
 
   // Only visible to you message
   // publishConversation("#general","U01BA9MBDBM", "Shhhh ! Only you can see this !");
