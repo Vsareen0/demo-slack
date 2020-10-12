@@ -65,6 +65,122 @@ async function sendLearningPath(event) {
       channel: event.channel,
       text: "world",
       thread_ts: event.ts,
+      blocks: [
+        {
+          type: "header",
+          text: {
+            type: "plain_text",
+            text: "Fill in the details:",
+            emoji: true,
+          },
+        },
+        {
+          type: "divider",
+        },
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "*Birthdate*",
+          },
+          accessory: {
+            type: "datepicker",
+            initial_date: "1990-04-28",
+            placeholder: {
+              type: "plain_text",
+              text: "Select a date",
+              emoji: true,
+            },
+            action_id: "datepicker-action",
+          },
+        },
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "*Choose your gender*",
+          },
+          accessory: {
+            type: "radio_buttons",
+            options: [
+              {
+                text: {
+                  type: "plain_text",
+                  text: "Male",
+                  emoji: true,
+                },
+                value: "male",
+              },
+              {
+                text: {
+                  type: "plain_text",
+                  text: "Female",
+                  emoji: true,
+                },
+                value: "female",
+              },
+            ],
+            action_id: "radio_buttons-action",
+          },
+        },
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "*Choose the area of your interest*",
+          },
+          accessory: {
+            type: "static_select",
+            placeholder: {
+              type: "plain_text",
+              text: "Select an interest",
+              emoji: true,
+            },
+            options: [
+              {
+                text: {
+                  type: "plain_text",
+                  text: "AI",
+                  emoji: true,
+                },
+                value: "AI",
+              },
+              {
+                text: {
+                  type: "plain_text",
+                  text: "ML",
+                  emoji: true,
+                },
+                value: "ML",
+              },
+              {
+                text: {
+                  type: "plain_text",
+                  text: "Data Science",
+                  emoji: true,
+                },
+                value: "Data Science",
+              },
+            ],
+            action_id: "static_select-action",
+          },
+        },
+        {
+          type: "actions",
+          elements: [
+            {
+              type: "button",
+              text: {
+                type: "plain_text",
+                text: "Submit",
+                emoji: true,
+              },
+              value: "click_me_123",
+              action_id: "actionId-0",
+            },
+          ],
+        },
+      ],
     });
     return;
   } catch (error) {
