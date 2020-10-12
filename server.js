@@ -54,6 +54,7 @@ receiver.router.post("/slack/actions", jsonParser, (req, res) => {
   console.log("do not touch me !");
   // publishMessage("#general", `Vinamra touched me !`);
   console.log("value: ", req.body);
+  res.send("i got: ", req.body);
 });
 
 async function sendLearningPath(event) {
@@ -164,21 +165,6 @@ async function sendLearningPath(event) {
             ],
             action_id: "static_select-action",
           },
-        },
-        {
-          type: "actions",
-          elements: [
-            {
-              type: "button",
-              text: {
-                type: "plain_text",
-                text: "Submit",
-                emoji: true,
-              },
-              value: "click_me_123",
-              action_id: "actionId-0",
-            },
-          ],
         },
       ],
     });
