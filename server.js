@@ -370,7 +370,7 @@ const send = async (channel, text) => {
   // Vinamra Id: U01BA9MBDBM
   // Pompei id:  U01BUCASW4S
 
-  const userInfo = await axios.post(
+  const { data } = await axios.post(
     `https://slack.com/api/auth.test?token=${process.env.token}`,
     {
       headers: {
@@ -378,11 +378,11 @@ const send = async (channel, text) => {
       },
     }
   );
-  console.log(userInfo.data);
-  // publishMessage(
-  //   `${res.}`,
-  //   "Hi :wave:, thankyou for choosing us ! :blush:. Let's get started working on boosting your performance. :fire:"
-  // );
+
+  publishMessage(
+    `${data.user}`,
+    "Hi :wave:, thankyou for choosing us ! :blush:. Let's get started working on boosting your performance. :fire:"
+  );
 
   // Only visible to you message
   // publishConversation("#general","U01BA9MBDBM", "Shhhh ! Only you can see this !");
