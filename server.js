@@ -380,7 +380,7 @@ const send = async (channel, text) => {
   );
 
   publishMessage(
-    `${data.user}`,
+    `@${data.user}`,
     "Hi :wave:, thankyou for choosing us ! :blush:. Let's get started working on boosting your performance. :fire:"
   );
 
