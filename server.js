@@ -41,7 +41,9 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
         break;
       }
       case "app_mention": {
-        console.log("hello: ", event.text.includes("create learning path"));
+        if (event.text.includes("create learning path")) {
+          sendLearningPath(event);
+        }
         break;
       }
     }
@@ -53,6 +55,22 @@ receiver.router.post("/slack/actions", jsonParser, (req, res) => {
   publishMessage("#general", `Vinamra touched me !`);
   console.log("value: ", req.body);
 });
+
+async function sendLearningPath(event) {
+  try {
+    const result = await slackApp.client.chat.postMessage({
+      // The token you used to initialize your app is stored in the `context` object
+      token: process.env.SLACK_BOT_TOKEN,
+      // Payload message should be posted in the channel where original message was heard
+      channel: event.channel,
+      text: "world",
+      thread_ts: event.ts,
+    });
+    return;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 async function handleMessageEvent(event) {
   try {
