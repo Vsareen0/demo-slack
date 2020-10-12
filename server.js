@@ -378,7 +378,7 @@ const send = async (channel, text) => {
     })
     .then((res) => {
       // Direct or channel message
-      console.log(res.json());
+      console.log(res);
       // publishMessage(
       //   `${res.}`,
       //   "Hi :wave:, thankyou for choosing us ! :blush:. Let's get started working on boosting your performance. :fire:"
