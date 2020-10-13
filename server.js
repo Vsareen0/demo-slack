@@ -66,9 +66,10 @@ receiver.router.post("/slashcommand", urlEncorder, async (req, res) => {
   openModal(trigger_id);
 });
 
-receiver.router.post("/actions", jsonParser, (req, res) => {
+receiver.router.post("/actions", urlEncorder, (req, res) => {
   //Your middleware will only be called when the action_id matches 'select_user' AND the block_id matches 'assign_ticket'
   res.send({ text: "👍" });
+
   console.log("actions: ", req);
 });
 
