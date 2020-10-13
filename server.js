@@ -51,41 +51,40 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
         break;
       }
     }
-
-    slackApp.action("actionId-0", async ({ ack, body, context }) => {
-      // Acknowledge the button request
-      ack();
-
-      try {
-        // Update the message
-        const result = await slackApp.client.chat.update({
-          token: context.botToken,
-          // ts of message to update
-          ts: body.message.ts,
-          // Channel of message
-          channel: body.channel.id,
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: "*The button was clicked!*",
-              },
-            },
-          ],
-          text: "Message from Test App",
-        });
-        console.log(result);
-      } catch (error) {
-        console.error(error);
-      }
-    });
   }
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
   // Listen for a button invocation with action_id `actionId-0`
   // You must set up a Request URL under Interactive Components on your app configuration page
+  slackApp.action("actionId-0", async ({ ack, body, context }) => {
+    // Acknowledge the button request
+    ack();
+
+    try {
+      // Update the message
+      const result = await slackApp.client.chat.update({
+        token: context.botToken,
+        // ts of message to update
+        ts: body.message.ts,
+        // Channel of message
+        channel: body.channel.id,
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "*The button was clicked!*",
+            },
+          },
+        ],
+        text: "Message from Test App",
+      });
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 });
 
 async function sendLearningPath(event) {
