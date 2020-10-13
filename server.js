@@ -56,7 +56,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
   console.log(req.body);
-  res.status(200).
+  res.status(200).send("Got it");
 });
 
 async function sendLearningPath(event) {
@@ -341,7 +341,6 @@ async function publishConversation(cid, id, text) {
     console.error(error);
   }
 }
-
 
 (async () => {
   // Start the app
