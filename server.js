@@ -65,7 +65,8 @@ receiver.router.post("/slashcommand", (req, res) => {
   // Shortcuts require the command scope
   console.log("slash command: ", req);
   res.send({ text: "test" });
-  openModal();
+  publishMessage("@vsareen24", "testing this text message !");
+  // openModal();
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
