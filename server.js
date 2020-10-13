@@ -60,15 +60,9 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
-  slackApp.action(
-    { callback_id: "wopr_game" },
-    async ({ action, ack, say }) => {
-      // it’s a valid email, accept the submission
-      await ack();
-      await say("👍🔥");
-    }
-  );
+  //Your middleware will only be called when the action_id matches 'select_user' AND the block_id matches 'assign_ticket'
   console.log(req.body);
+  openModal();
 });
 
 async function sendLearningPath(event) {
@@ -188,6 +182,81 @@ async function sendLearningPath(event) {
   }
 }
 
+async function openModal() {
+  try {
+    // Call the chat.postMessage method using the built-in WebClient
+    const result = await slackApp.client.chat.postMessage({
+      // The token you used to initialize your app is stored in the `context` object
+      token: process.env.SLACK_BOT_TOKEN,
+      // Payload message should be posted in the channel where original message was heard
+      channel: `@${data.user}`,
+      blocks: [
+        {
+          type: "modal",
+          title: {
+            type: "plain_text",
+            text: "My App",
+            emoji: true,
+          },
+          submit: {
+            type: "plain_text",
+            text: "Submit",
+            emoji: true,
+          },
+          close: {
+            type: "plain_text",
+            text: "Cancel",
+            emoji: true,
+          },
+          blocks: [
+            {
+              type: "section",
+              text: {
+                type: "mrkdwn",
+                text: "This is a section block with a button.",
+              },
+              accessory: {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  text: "Click Me",
+                },
+                value: "click_me_123",
+                action_id: "button",
+              },
+            },
+            {
+              type: "actions",
+              block_id: "actionblock789",
+              elements: [
+                {
+                  type: "button",
+                  text: {
+                    type: "plain_text",
+                    text: "Primary Button",
+                  },
+                  style: "primary",
+                  value: "click_me_456",
+                },
+                {
+                  type: "button",
+                  text: {
+                    type: "plain_text",
+                    text: "Link Button",
+                  },
+                  url: "https://api.slack.com/block-kit",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 async function sendButton(event) {
   try {
     // Call the chat.postMessage method using the built-in WebClient
@@ -197,39 +266,24 @@ async function sendButton(event) {
       // Payload message should be posted in the channel where original message was heard
       channel: event.channel,
       thread_ts: event.ts,
-      text: "Would you like to play a game?",
-      attachments: [
+      blocks: [
         {
-          text: "Choose a game to play",
-          fallback: "You are unable to choose a game",
-          callback_id: "wopr_game",
-          color: "#3AA3E3",
-          attachment_type: "default",
-          actions: [
+          type: "divider",
+        },
+        {
+          type: "actions",
+          elements: [
             {
-              name: "game",
-              text: "Chess",
               type: "button",
-              value: "chess",
-            },
-            {
-              name: "game",
-              text: "Falken's Maze",
-              type: "button",
-              value: "maze",
-            },
-            {
-              name: "game",
-              text: "Thermonuclear War",
-              style: "danger",
-              type: "button",
-              value: "war",
-              confirm: {
-                title: "Are you sure?",
-                text: "Wouldn't you prefer a good game of chess?",
-                ok_text: "Yes",
-                dismiss_text: "No",
+              text: {
+                type: "plain_text",
+                text: "Click Me",
+                emoji: true,
               },
+              value: "click_me_123",
+              action_id: "approve_button",
+              style: "primary",
+              confirm,
             },
           ],
         },
