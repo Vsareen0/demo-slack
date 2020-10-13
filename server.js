@@ -70,7 +70,7 @@ receiver.router.post("/actions", urlEncorder, (req, res) => {
   //Your middleware will only be called when the action_id matches 'select_user' AND the block_id matches 'assign_ticket'
   res.send({ text: "👍" });
 
-  console.log("actions: ", req);
+  console.log("actions: ", req.body.payload);
 });
 
 async function openModal(id) {
