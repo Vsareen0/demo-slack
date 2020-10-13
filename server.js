@@ -55,7 +55,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
-  console.log(req.body);
+  console.log(req);
   // const { type, user, submission } = payload;
   // if (type === "message_action") {
   //   // open a dialog!
