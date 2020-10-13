@@ -60,7 +60,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
-  console.log(req.form);
+  console.log(req.body);
   res.status(200).send("Got it");
 });
 
