@@ -283,7 +283,6 @@ async function sendButton(event) {
               value: "click_me_123",
               action_id: "approve_button",
               style: "primary",
-              confirm,
             },
           ],
         },
