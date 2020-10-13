@@ -316,9 +316,8 @@ async function publishMessage(id, text) {
       channel: id,
       text: text,
     });
-
+    return;
     // Print result, which includes information about the message (like TS)
-    console.log(result);
   } catch (error) {
     console.error(error);
   }
