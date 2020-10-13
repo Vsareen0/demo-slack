@@ -60,7 +60,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
   res.send({ text: "text" });
 });
 
-receiver.router.post("/slashcommand", (req, res) => {
+receiver.router.post("/slashcommand", async (req, res) => {
   // The open_modal shortcut opens a plain old modal
   // Shortcuts require the command scope
   console.log("slash command: ", req.body);
