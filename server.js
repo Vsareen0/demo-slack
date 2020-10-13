@@ -54,8 +54,8 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 receiver.router.post("/slack/actions", jsonParser, (req, res) => {
   console.log("do not touch me !");
   // publishMessage("#general", `Vinamra touched me !`);
-  console.log("value: ", req.body);
-  res.send("i got: ", req.body);
+  console.log("value: ", req.body.payload);
+  res.status(200).send("Received !");
 });
 
 async function sendLearningPath(event) {
