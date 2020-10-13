@@ -77,7 +77,7 @@ async function openModal() {
   // Call the views.open method using the built-in WebClient
   const result = await slackApp.client.views.open({
     // The token you used to initialize your app is stored in the `context` object
-    token: context.botToken,
+    token: process.env.SLACK_BOT_TOKEN,
     view: {
       type: "modal",
       title: {
