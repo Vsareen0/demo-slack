@@ -68,7 +68,7 @@ receiver.router.post("/slashcommand", (req, res) => {
 
     try {
       // Call the views.open method using the built-in WebClient
-      const result = await app.client.views.open({
+      const result = await slackApp.client.views.open({
         // The token you used to initialize your app is stored in the `context` object
         token: context.botToken,
         trigger_id: payload.trigger_id,
