@@ -13,6 +13,11 @@ const slackApp = new App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 var jsonParser = bodyParser.json();
+slackApp.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 // Other web requests are methods on receiver.router
 receiver.router.get("/", (req, res) => {
@@ -55,7 +60,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
-  console.log(req.form.get("request_url"));
+  console.log(req.form);
   res.status(200).send("Got it");
 });
 
