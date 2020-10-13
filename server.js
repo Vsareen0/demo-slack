@@ -62,7 +62,6 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 receiver.router.post("/actions", jsonParser, (req, res) => {
   //Your middleware will only be called when the action_id matches 'select_user' AND the block_id matches 'assign_ticket'
   console.log(req.body);
-  openModal();
 });
 
 async function sendLearningPath(event) {
@@ -177,81 +176,6 @@ async function sendLearningPath(event) {
       ],
     });
     return;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-async function openModal() {
-  try {
-    // Call the chat.postMessage method using the built-in WebClient
-    const result = await slackApp.client.chat.postMessage({
-      // The token you used to initialize your app is stored in the `context` object
-      token: process.env.SLACK_BOT_TOKEN,
-      // Payload message should be posted in the channel where original message was heard
-      channel: `@vsareen24`,
-      blocks: [
-        {
-          type: "modal",
-          title: {
-            type: "plain_text",
-            text: "My App",
-            emoji: true,
-          },
-          submit: {
-            type: "plain_text",
-            text: "Submit",
-            emoji: true,
-          },
-          close: {
-            type: "plain_text",
-            text: "Cancel",
-            emoji: true,
-          },
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: "This is a section block with a button.",
-              },
-              accessory: {
-                type: "button",
-                text: {
-                  type: "plain_text",
-                  text: "Click Me",
-                },
-                value: "click_me_123",
-                action_id: "button",
-              },
-            },
-            {
-              type: "actions",
-              block_id: "actionblock789",
-              elements: [
-                {
-                  type: "button",
-                  text: {
-                    type: "plain_text",
-                    text: "Primary Button",
-                  },
-                  style: "primary",
-                  value: "click_me_456",
-                },
-                {
-                  type: "button",
-                  text: {
-                    type: "plain_text",
-                    text: "Link Button",
-                  },
-                  url: "https://api.slack.com/block-kit",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
   } catch (error) {
     console.error(error);
   }
