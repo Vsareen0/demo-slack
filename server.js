@@ -60,11 +60,14 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
-  app.action({ callback_id: "wopr_game" }, async ({ action, ack, say }) => {
-    // it’s a valid email, accept the submission
-    await ack();
-    await say("👍🔥");
-  });
+  slackApp.action(
+    { callback_id: "wopr_game" },
+    async ({ action, ack, say }) => {
+      // it’s a valid email, accept the submission
+      await ack();
+      await say("👍🔥");
+    }
+  );
   console.log(req.body);
 });
 
