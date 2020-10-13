@@ -61,10 +61,9 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 receiver.router.post("/slashcommand", urlEncorder, async (req, res) => {
   // The open_modal shortcut opens a plain old modal
   // Shortcuts require the command scope
-  console.log("slash command: ", req.body);
+  const { response_url, trigger_id } = req.body;
   res.send({ text: "test" });
-  publishMessage("@vsareen24", "testing this text message !");
-  // openModal();
+  openModal(trigger_id);
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
@@ -73,13 +72,14 @@ receiver.router.post("/actions", jsonParser, (req, res) => {
   console.log("actions: ", req);
 });
 
-async function openModal() {
+async function openModal(id) {
   // Call the views.open method using the built-in WebClient
   const result = await slackApp.client.views.open({
     // The token you used to initialize your app is stored in the `context` object
     token: process.env.SLACK_BOT_TOKEN,
     view: {
       type: "modal",
+      trigger_id: id,
       title: {
         type: "plain_text",
         text: "Gratitude Box",
