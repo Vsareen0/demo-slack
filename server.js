@@ -62,50 +62,54 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 receiver.router.post("/slashcommand", (req, res) => {
   // The open_modal shortcut opens a plain old modal
   // Shortcuts require the command scope
-      // Call the views.open method using the built-in WebClient
-      const result = await slackApp.client.views.open({
-        // The token you used to initialize your app is stored in the `context` object
-        token: context.botToken,
-        view: {
-          type: "modal",
-          title: {
-            type: "plain_text",
-            text: "Gratitude Box",
-            emoji: true,
-          },
-          submit: {
-            type: "plain_text",
-            text: "Submit",
-            emoji: true,
-          },
-          close: {
-            type: "plain_text",
-            text: "Cancel",
-            emoji: true,
-          },
-          blocks: [
-            {
-              type: "input",
-              block_id: "my_block",
-              element: {
-                type: "plain_text_input",
-                action_id: "my_action",
-              },
-              label: {
-                type: "plain_text",
-                text: "Say something nice!",
-                emoji: true,
-              },
-            },
-          ],
-        },
-      });
+  openModal();
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
   //Your middleware will only be called when the action_id matches 'select_user' AND the block_id matches 'assign_ticket'
   console.log(req);
 });
+
+async function openModal() {
+  // Call the views.open method using the built-in WebClient
+  const result = await slackApp.client.views.open({
+    // The token you used to initialize your app is stored in the `context` object
+    token: context.botToken,
+    view: {
+      type: "modal",
+      title: {
+        type: "plain_text",
+        text: "Gratitude Box",
+        emoji: true,
+      },
+      submit: {
+        type: "plain_text",
+        text: "Submit",
+        emoji: true,
+      },
+      close: {
+        type: "plain_text",
+        text: "Cancel",
+        emoji: true,
+      },
+      blocks: [
+        {
+          type: "input",
+          block_id: "my_block",
+          element: {
+            type: "plain_text_input",
+            action_id: "my_action",
+          },
+          label: {
+            type: "plain_text",
+            text: "Say something nice!",
+            emoji: true,
+          },
+        },
+      ],
+    },
+  });
+}
 
 async function sendLearningPath(event) {
   try {
