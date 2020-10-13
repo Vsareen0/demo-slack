@@ -62,23 +62,6 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 receiver.router.post("/actions", jsonParser, (req, res) => {
   //Your middleware will only be called when the action_id matches 'select_user' AND the block_id matches 'assign_ticket'
   console.log(req.body);
-  slackApp.action(
-    { action_id: "approve_button" },
-    async ({ body, action, ack, say, context }) => {
-      await ack();
-      try {
-        const result = await slackApp.client.reactions.add({
-          token: context.botToken,
-          name: "white_check_mark",
-          timestamp: action.ts,
-          channel: body.channel.id,
-        });
-        await say("Request approved 👍");
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  );
 });
 
 slackApp.action(
