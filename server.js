@@ -55,7 +55,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
-  console.log(req.body);
+  console.log(req);
   res.status(200).send("Got it");
 });
 
