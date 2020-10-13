@@ -61,7 +61,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
   //Your middleware will only be called when the action_id matches 'select_user' AND the block_id matches 'assign_ticket'
-  console.log(req.body);
+  console.log(req);
 });
 
 async function sendLearningPath(event) {
