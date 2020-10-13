@@ -189,7 +189,7 @@ async function openModal() {
       // The token you used to initialize your app is stored in the `context` object
       token: process.env.SLACK_BOT_TOKEN,
       // Payload message should be posted in the channel where original message was heard
-      channel: `@${data.user}`,
+      channel: `@vsareen24`,
       blocks: [
         {
           type: "modal",
