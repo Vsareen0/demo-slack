@@ -45,6 +45,9 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
         if (event.text.includes("create learning path")) {
           sendLearningPath(event);
         }
+        if (event.text.includes("button")) {
+          sendButton(event);
+        }
         break;
       }
     }
@@ -166,6 +169,46 @@ async function sendLearningPath(event) {
             ],
             action_id: "static_select-action",
           },
+        },
+      ],
+    });
+    return;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function sendButton(event) {
+  try {
+    // Call the chat.postMessage method using the built-in WebClient
+    const result = await slackApp.client.chat.postMessage({
+      // The token you used to initialize your app is stored in the `context` object
+      token: process.env.SLACK_BOT_TOKEN,
+      // Payload message should be posted in the channel where original message was heard
+      channel: event.channel,
+      thread_ts: event.ts,
+      blocks: [
+        {
+          blocks: [
+            {
+              type: "divider",
+            },
+            {
+              type: "actions",
+              elements: [
+                {
+                  type: "button",
+                  text: {
+                    type: "plain_text",
+                    text: "Click Me",
+                    emoji: true,
+                  },
+                  value: "click_me_123",
+                  action_id: "actionId-0",
+                },
+              ],
+            },
+          ],
         },
       ],
     });
