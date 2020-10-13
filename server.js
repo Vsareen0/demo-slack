@@ -62,16 +62,10 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 receiver.router.post("/slashcommand", (req, res) => {
   // The open_modal shortcut opens a plain old modal
   // Shortcuts require the command scope
-  slackApp.shortcut("open_modal", async ({ payload, ack, context }) => {
-    // Acknowledge shortcut request
-    ack();
-
-    try {
       // Call the views.open method using the built-in WebClient
       const result = await slackApp.client.views.open({
         // The token you used to initialize your app is stored in the `context` object
         token: context.botToken,
-        trigger_id: payload.trigger_id,
         view: {
           type: "modal",
           title: {
@@ -106,12 +100,6 @@ receiver.router.post("/slashcommand", (req, res) => {
           ],
         },
       });
-
-      console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
-  });
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
