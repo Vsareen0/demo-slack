@@ -57,12 +57,13 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
       }
     }
   }
+  res.send({ text: "text" });
 });
 
 receiver.router.post("/slashcommand", (req, res) => {
   // The open_modal shortcut opens a plain old modal
   // Shortcuts require the command scope
-  console.log(req.body);
+  console.log("slash command: ", req);
   res.send({ text: "test" });
   openModal();
 });
@@ -70,7 +71,7 @@ receiver.router.post("/slashcommand", (req, res) => {
 receiver.router.post("/actions", jsonParser, (req, res) => {
   //Your middleware will only be called when the action_id matches 'select_user' AND the block_id matches 'assign_ticket'
   res.send({ text: "👍" });
-  console.log(req);
+  console.log("actions: ", req);
 });
 
 async function openModal() {
