@@ -57,7 +57,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 receiver.router.post("/actions", jsonParser, (req, res) => {
   // Listen for a button invocation with action_id `actionId-0`
   // You must set up a Request URL under Interactive Components on your app configuration page
-  app.action("actionId-0", async ({ ack, body, context }) => {
+  slackApp.action("actionId-0", async ({ ack, body, context }) => {
     // Acknowledge the button request
     ack();
 
