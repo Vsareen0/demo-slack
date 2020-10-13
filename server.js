@@ -63,7 +63,7 @@ receiver.router.post("/actions", jsonParser, (req, res) => {
 
     try {
       // Update the message
-      const result = await app.client.chat.update({
+      const result = await slackApp.client.chat.update({
         token: context.botToken,
         // ts of message to update
         ts: body.message.ts,
