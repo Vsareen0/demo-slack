@@ -64,24 +64,6 @@ receiver.router.post("/actions", jsonParser, (req, res) => {
   console.log(req.body);
 });
 
-slackApp.action(
-  { action_id: "approve_button" },
-  async ({ body, action, ack, say, context }) => {
-    await ack();
-    try {
-      const result = await slackApp.client.reactions.add({
-        token: context.botToken,
-        name: "white_check_mark",
-        timestamp: action.ts,
-        channel: body.channel.id,
-      });
-      await say("Request approved 👍");
-    } catch (error) {
-      console.error(error);
-    }
-  }
-);
-
 async function sendLearningPath(event) {
   try {
     const result = await slackApp.client.chat.postMessage({
@@ -208,22 +190,39 @@ async function sendButton(event) {
       // Payload message should be posted in the channel where original message was heard
       channel: event.channel,
       thread_ts: event.ts,
-      blocks: [
+      text: "Would you like to play a game?",
+      attachments: [
         {
-          type: "divider",
-        },
-        {
-          type: "actions",
-          elements: [
+          text: "Choose a game to play",
+          fallback: "You are unable to choose a game",
+          callback_id: "wopr_game",
+          color: "#3AA3E3",
+          attachment_type: "default",
+          actions: [
             {
+              name: "game",
+              text: "Chess",
               type: "button",
-              text: {
-                type: "plain_text",
-                text: "Click Me",
-                emoji: true,
+              value: "chess",
+            },
+            {
+              name: "game",
+              text: "Falken's Maze",
+              type: "button",
+              value: "maze",
+            },
+            {
+              name: "game",
+              text: "Thermonuclear War",
+              style: "danger",
+              type: "button",
+              value: "war",
+              confirm: {
+                title: "Are you sure?",
+                text: "Wouldn't you prefer a good game of chess?",
+                ok_text: "Yes",
+                dismiss_text: "No",
               },
-              value: "click_me_123",
-              action_id: "approve_button",
             },
           ],
         },
