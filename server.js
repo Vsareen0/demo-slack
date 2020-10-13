@@ -77,9 +77,9 @@ async function openModal(id) {
   const result = await slackApp.client.views.open({
     // The token you used to initialize your app is stored in the `context` object
     token: process.env.SLACK_BOT_TOKEN,
+    trigger_id: id,
     view: {
       type: "modal",
-      trigger_id: id,
       title: {
         type: "plain_text",
         text: "Gratitude Box",
