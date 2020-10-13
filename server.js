@@ -13,11 +13,9 @@ const slackApp = new App({
   token: process.env.SLACK_BOT_TOKEN,
 });
 var jsonParser = bodyParser.json();
-slackApp.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+var urlEncorder = bodyParser.urlencoded({
+  extended: true,
+});
 
 // Other web requests are methods on receiver.router
 receiver.router.get("/", (req, res) => {
@@ -60,7 +58,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
   res.send({ text: "text" });
 });
 
-receiver.router.post("/slashcommand", async (req, res) => {
+receiver.router.post("/slashcommand", urlEncorder, async (req, res) => {
   // The open_modal shortcut opens a plain old modal
   // Shortcuts require the command scope
   console.log("slash command: ", req.body);
