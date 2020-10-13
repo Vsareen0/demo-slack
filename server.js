@@ -28,7 +28,7 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
     res.send(value);
   } else {
     // Listen to the app_home_opened Events API event to hear when a user opens your app from the sidebar
-    console.log("events: %c" + req.body.event, "color:green");
+    console.log("events: ", req.body.event);
 
     const event = req.body.event;
 
