@@ -208,7 +208,6 @@ async function sendButton(event) {
         },
       ],
     });
-    return;
   } catch (error) {
     console.error(error);
   }
@@ -226,7 +225,6 @@ async function handleMessageEvent(event) {
         text: "world",
         thread_ts: event.ts,
       });
-      return;
     }
   } catch (error) {
     console.error(error);
@@ -316,8 +314,9 @@ async function publishMessage(id, text) {
       channel: id,
       text: text,
     });
-    return;
+
     // Print result, which includes information about the message (like TS)
+    console.log(result);
   } catch (error) {
     console.error(error);
   }
