@@ -55,9 +55,8 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
-  // Listen for a button invocation with action_id `actionId-0`
-  // You must set up a Request URL under Interactive Components on your app configuration page
   console.log(req.body);
+  res.status(200).
 });
 
 async function sendLearningPath(event) {
@@ -343,17 +342,6 @@ async function publishConversation(cid, id, text) {
   }
 }
 
-const send = async (channel, text) => {
-  try {
-    const result = await app.client.chat.postMessage({
-      token: process.env.SLACK_BOT_TOKEN,
-      channel: channel,
-      text: `:wave: Hey, I created this note for you in my _Home_: \n>>>${text}`,
-    });
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 (async () => {
   // Start the app
