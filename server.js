@@ -55,12 +55,13 @@ receiver.router.post("/challenge", jsonParser, (req, res) => {
 });
 
 receiver.router.post("/actions", jsonParser, (req, res) => {
-  const payload = JSON.parse(req.body.payload);
-  const { type, user, submission } = payload;
-  if (type === "message_action") {
-    // open a dialog!
-    console.log("called action");
-  }
+  const payload = req.body.payload;
+  console.log(payload, " ", req.body);
+  // const { type, user, submission } = payload;
+  // if (type === "message_action") {
+  //   // open a dialog!
+  //   console.log("called action");
+  // }
   res.status(200).send("Received !");
 });
 
